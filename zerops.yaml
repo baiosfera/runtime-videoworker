@@ -1,0 +1,27 @@
+zerops:
+  - setup: videoworker
+    build:
+      base: ubuntu/nodejs@24
+      prepareCommands:
+        - sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      buildCommands:
+        - npm install --omit=dev
+      deployFiles:
+        - .
+    run:
+      base: ubuntu/nodejs@24
+      ports:
+        - port: 3010
+          httpSupport: true
+      envVariables:
+        PORT: "3010"
+        NATS_URL: ${nats_connectionString}
+        VALKEY_URL: ${valkey_connectionString}
+        NODE_ENV: "production"
+        MAX_CONCURRENT_RENDERS: "1"
+        VIDEO_OUTPUT_DIR: "/var/www/output"
+      start: npm start
+      healthCheck:
+        httpGet:
+          port: 3010
+          path: /health
