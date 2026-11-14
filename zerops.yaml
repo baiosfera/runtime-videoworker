@@ -9,7 +9,7 @@ zerops:
     run:
       base: ubuntu/nodejs@24
       prepareCommands:
-        - sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+        - sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg ca-certificates
       ports:
         - port: 3010
           httpSupport: true
@@ -17,9 +17,12 @@ zerops:
         PORT: "3010"
         NATS_URL: ${nats_connectionString}
         VALKEY_URL: ${valkey_connectionString}
+        S3_ENDPOINT: ${objectstorage_apiUrl}
+        S3_ACCESS_KEY: ${objectstorage_accessKeyId}
+        S3_SECRET_KEY: ${objectstorage_secretAccessKey}
+        S3_BUCKET: ${objectstorage_bucketName}
         NODE_ENV: "production"
         MAX_CONCURRENT_RENDERS: "1"
-        VIDEO_OUTPUT_DIR: "/var/www/output"
       start: npm start
       healthCheck:
         httpGet:
