@@ -15,7 +15,7 @@ zerops:
           httpSupport: true
       envVariables:
         PORT: "3010"
-        NATS_URL: ${nats_connectionString}
+        # Optional: inject NATS_URL via Project Shared Vault / Service Env when nats:single@2.12 is provisioned
         VALKEY_URL: ${valkey_connectionString}
         S3_ENDPOINT: ${objectstorage_apiUrl}
         S3_ACCESS_KEY: ${objectstorage_accessKeyId}
